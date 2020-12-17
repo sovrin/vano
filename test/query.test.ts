@@ -1,6 +1,6 @@
 import assert from "assert";
 import query from '../src/query'
-import {Entry} from "../types/types";
+import {Entry} from "../src/types";
 
 describe('query', () => {
     const data: Array<Entry<any>> = [
