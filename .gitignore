@@ -1,0 +1,12 @@
+/.nyc_output
+/.idea
+
+/coverage
+/node_modules
+/dist
+/types
+
+package-lock.json
+
+/tests/adapters/bar.json
+/tests/adapters/non-existent.json
