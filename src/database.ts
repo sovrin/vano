@@ -5,7 +5,7 @@ import {Config, Collection, Database} from "./types";
  *
  * @param config
  */
-const factory = (config?: Config): Database => {
+const factory = (config: Config): Database => {
     const collections: Record<string, Collection<any>> = {};
 
     /**
