@@ -10,10 +10,7 @@
     "outDir": "./dist",
     "baseUrl": "./src",
     "declaration": true,
-    "declarationDir": "./types",
-    "lib": [
-      "ES6"
-    ]
+    "declarationDir": "./types"
   },
   "exclude": [
     "test/**"

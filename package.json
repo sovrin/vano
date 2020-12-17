@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "description": "",
   "main": "./dist/index.js",
+  "types": "./types/index.d.ts",
+  "type": "commonjs",
   "scripts": {
     "build": "tsc --project tsconfig.prod.json",
     "watch": "tsc --watch",
@@ -10,8 +12,8 @@
     "coverage": "nyc npm test"
   },
   "files": [
-    "./dist",
-    "./types"
+    "dist",
+    "types"
   ],
   "author": {
     "name": "Oleg Kamlowski",
