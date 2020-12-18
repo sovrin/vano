@@ -11,9 +11,21 @@ const factory = (config: Config): Database => {
     /**
      *
      * @param name
+     */
+    const valid = (name: string): boolean => (
+        name && name === name.trim().replace(/[^a-z0-9]/g, '')
+    );
+
+    /**
+     *
+     * @param name
      * @param schema
      */
     const collection = <T>(name: string, schema: T): Collection<T> => {
+        if (!valid(name)) {
+            throw new Error(`collection name can only be alphanumeric.`)
+        }
+
         if (!collections[name]) {
             collections[name] = collectionFactory(name, schema, config);
         }
