@@ -7,7 +7,6 @@ describe('adapter', () => {
 
         before(() => {
             try {
-                unlinkSync(__dirname + '/non-existent.json');
                 unlinkSync(__dirname + '/bar.json');
             } catch (e) {
                 //
@@ -17,9 +16,9 @@ describe('adapter', () => {
         const adapter = file(__dirname);
 
         it('should read file', async () => {
-            const {foo} = await adapter.read('foo') as any;
+            const data = await adapter.read('foo') as any;
 
-            assert(foo === 'bar');
+            assert(data === "{\"foo\": \"bar\"}");
         });
 
         it('should not be not loadable', async () => {
@@ -29,10 +28,16 @@ describe('adapter', () => {
         });
 
         it('should write new file', async () => {
-            await adapter.write('bar', {'fiz': 'buzz'});
-            const {fiz} = await adapter.read('bar') as any;
+            const string = "{\"fiz\":\"buz\"}";
+            let data = await adapter.read('bar') as any;
 
-            assert(fiz === 'buzz');
+            assert(data === null);
+
+            await adapter.write('bar', string);
+            data = await adapter.read('bar') as any;
+
+            assert(data === string);
+            assert(data.match(/buz/))
         });
 
         it('should serialize data', () => {
