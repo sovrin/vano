@@ -36,7 +36,7 @@ import vano, {file} from 'vano';
 
 ## API
 - <a href="#ctor"><code><b>vano(config)</b></code></a>
-- <a href="#adapterFile"><code><b>file(path)</b></code></a>
+- <a href="#adapterFile"><code><b>file(base)</b></code></a>
 - <a href="#adapterMemory"><code><b>memory()</b></code></a>
 - <a href="#col"><code>db<b>.collection(name[, schema])</b></code></a>
 - <a href="#colRead"><code>col.<b>read()</b></code></a>
