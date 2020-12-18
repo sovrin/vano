@@ -115,7 +115,7 @@ describe('collection', () => {
             fiz: 2,
             string: "string",
             number: 9000,
-        });
+        } as any);
 
         const entry = instance.get(id) as any;
         const expected = ['_id', '_ts', 'string', 'number', 'boolean', 'default'];
