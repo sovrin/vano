@@ -3,7 +3,7 @@
 [![npm version][npm-src]][npm-href]
 [![types][types-src]][types-href]
 [![size][size-src]][size-href]
-[![coverage][coverage-src]][dep-href]
+[![coverage][coverage-src]][coverage-href]
 [![vulnerabilities][vulnerabilities-src]][vulnerabilities-href]
 [![dependencies][dep-src]][dep-href]
 [![devDependencies][devDep-src]][devDep-href]
@@ -326,9 +326,9 @@ MIT License, see [LICENSE](./LICENSE)
 [npm-src]: https://badgen.net/npm/v/vano
 [npm-href]: https://www.npmjs.com/package/vano
 [size-src]: https://badgen.net/packagephobia/install/vano
-[size-href]: https://badgen.net/packagephobia/install/vano
+[size-href]: https://packagephobia.com/result?p=vano
 [types-src]: https://badgen.net/npm/types/vano
-[types-href]: https://badgen.net/npm/types/vano
+[types-href]: https://www.npmjs.com/package/vano
 [coverage-src]: https://coveralls.io/repos/github/sovrin/vano/badge.svg?branch=master
 [coverage-href]: https://coveralls.io/github/sovrin/vano?branch=master
 [vulnerabilities-src]: https://snyk.io/test/github/sovrin/vano/badge.svg
