@@ -26,14 +26,14 @@ const factory = (): Adapter => {
      *
      * @param key
      */
-    const read = async (key: string): Promise<object> => (
+    const read = async (key: string): Promise<string> => (
         Promise.resolve(memory[key])
     );
 
     /**
      *
      */
-    const write = async (key: string, data: object): Promise<void> => {
+    const write = async (key: string, data: string): Promise<void> => {
         memory[key] = data;
     };
 

@@ -32,17 +32,14 @@ const factory = (root: string): Adapter => {
      *
      * @param key
      */
-    const read = async (key: string): Promise<object> => {
         const pointer = resolve(root, `${key}.json`);
+    const read = async (key: string): Promise<string> => {
 
         if (!existsSync(pointer)) {
             return null;
         }
 
-        const data = await load(pointer, 'utf-8');
-        const trimmed = data.trim();
-
-        return deserialize(trimmed);
+        return (await load(cursor, 'utf-8')).trim();
     }
 
     /**
@@ -50,11 +47,10 @@ const factory = (root: string): Adapter => {
      * @param key
      * @param data
      */
-    const write = async (key: string, data: object): Promise<void> => {
-        const pointer = resolve(root, `${key}.json`);
-        const string = serialize(data);
+    const write = async (key: string, data: string): Promise<void> => {
+        const pointer = resolve(base, `${key}.json`);
 
-        await save(pointer, string);
+        await save(pointer, data);
     }
 
     return {

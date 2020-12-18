@@ -1,6 +1,6 @@
 export type Adapter = {
-    read(key: string): Promise<object>,
-    write(key: string, data: object): Promise<void>,
+    read(key: string): Promise<string>,
+    write(key: string, data: string): Promise<void>,
     serialize(data: any),
     deserialize(data: any),
 }

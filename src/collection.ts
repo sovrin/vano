@@ -28,14 +28,15 @@ const factory = <T>(name: string, schema: T, config: Config): Collection<T> => {
             return;
         }
 
-        data = loaded;
+        data = adapter.deserialize(loaded);
     };
 
     /**
      *
      */
     const write = async (): Promise<Data<T>> => {
-        await adapter.write(name, data);
+        const serialized = adapter.serialize(data);
+        await adapter.write(name, serialized);
 
         return data;
     };
