@@ -198,8 +198,6 @@ const factory = <T>(name: string, schema: T, config: Config): Collection<T> => {
     const reset = async () => {
         data.timestamp = timestamp();
         data.entries = [];
-
-        await write();
     };
 
     return {
