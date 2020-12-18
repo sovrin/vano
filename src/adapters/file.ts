@@ -8,9 +8,9 @@ const save = promisify(writeFile);
 
 /**
  *
- * @param root
+ * @param base
  */
-const factory = (root: string): Adapter => {
+const factory = (base: string): Adapter => {
 
     /**
      *
@@ -32,10 +32,10 @@ const factory = (root: string): Adapter => {
      *
      * @param key
      */
-        const pointer = resolve(root, `${key}.json`);
     const read = async (key: string): Promise<string> => {
+        const cursor = resolve(base, `${key}.json`);
 
-        if (!existsSync(pointer)) {
+        if (!existsSync(cursor)) {
             return null;
         }
 
