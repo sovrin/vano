@@ -5,6 +5,7 @@ import {equals} from "../utils";
 describe('adapter', () => {
     describe('memory', () => {
         const adapter = memory();
+        const data = {foo: 'bar'};
 
         it('should return undefined', async () => {
             const bar = await adapter.read('bar');
@@ -13,7 +14,6 @@ describe('adapter', () => {
         });
 
         it('should write', async () => {
-            const data = {foo: 'bar'};
             await adapter.write('foo', data);
 
             const value = await adapter.read('foo');
@@ -22,13 +22,14 @@ describe('adapter', () => {
         });
 
         it('should serialize data', () => {
-            const serialized = adapter.serialize({foo: 'bar'});
+            const serialized = adapter.serialize(data);
 
-            assert(serialized === "{\"foo\":\"bar\"}");
+            assert(serialized !== data);
+            assert(equals(serialized, data));
         });
 
         it('should deserialize data', () => {
-            const {foo} = adapter.deserialize("{\"foo\":\"bar\"}");
+            const {foo} = adapter.deserialize(data);
 
             assert(foo === 'bar');
         });

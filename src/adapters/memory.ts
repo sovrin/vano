@@ -1,12 +1,26 @@
-import adapter from '../adapter';
 import {Adapter} from "../types";
 
 /**
  *
  */
 const factory = (): Adapter => {
-    const {serialize, deserialize} = adapter();
     const memory = {};
+
+    /**
+     *
+     * @param data
+     */
+    const serialize = (data: object) => (
+        Object.assign({}, data)
+    );
+
+    /**
+     *
+     * @param data
+     */
+    const deserialize = (data: any) => (
+        Object.assign({}, data)
+    );
 
     /**
      *

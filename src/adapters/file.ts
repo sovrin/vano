@@ -1,7 +1,6 @@
 import {resolve} from 'path';
 import {existsSync, readFile, writeFile} from 'fs';
 import {promisify} from 'util';
-import adapter from '../adapter';
 import {Adapter} from "../types";
 
 const load = promisify(readFile);
@@ -12,7 +11,22 @@ const save = promisify(writeFile);
  * @param root
  */
 const factory = (root: string): Adapter => {
-    const {serialize, deserialize} = adapter();
+
+    /**
+     *
+     * @param data
+     */
+    const serialize = (data: any) => (
+        data && JSON.stringify(data)
+    );
+
+    /**
+     *
+     * @param data
+     */
+    const deserialize = (data: string) => (
+        data && JSON.parse(data)
+    );
 
     /**
      *
