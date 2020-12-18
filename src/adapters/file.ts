@@ -33,7 +33,7 @@ const factory = (root: string): Adapter => {
      * @param key
      */
     const read = async (key: string): Promise<object> => {
-        const pointer = resolve(root, key);
+        const pointer = resolve(root, `${key}.json`);
 
         if (!existsSync(pointer)) {
             return null;
@@ -51,7 +51,7 @@ const factory = (root: string): Adapter => {
      * @param data
      */
     const write = async (key: string, data: object): Promise<void> => {
-        const pointer = resolve(root, key);
+        const pointer = resolve(root, `${key}.json`);
         const string = serialize(data);
 
         await save(pointer, string);

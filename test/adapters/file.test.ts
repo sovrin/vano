@@ -17,20 +17,20 @@ describe('adapter', () => {
         const adapter = file(__dirname);
 
         it('should read file', async () => {
-            const {foo} = await adapter.read('foo.json') as any;
+            const {foo} = await adapter.read('foo') as any;
 
             assert(foo === 'bar');
         });
 
         it('should not be not loadable', async () => {
-            const data = await adapter.read('unknown.json') as any;
+            const data = await adapter.read('unknown') as any;
 
             assert(data === null);
         });
 
         it('should write new file', async () => {
-            await adapter.write('bar.json', {'fiz': 'buzz'});
-            const {fiz} = await adapter.read('bar.json') as any;
+            await adapter.write('bar', {'fiz': 'buzz'});
+            const {fiz} = await adapter.read('bar') as any;
 
             assert(fiz === 'buzz');
         });

@@ -16,21 +16,13 @@ const factory = <T>(name: string, schema: T, config: Config): Collection<T> => {
         timestamp: timestamp(),
     };
 
-    const {adapter, ext} = {
-        ext: 'json',
-        ...config,
-    };
+    const {adapter} = config;
 
     /**
      *
      */
     const read = async (): Promise<void> => {
-        const parts = [name, ext];
-        const cursor = parts.filter(Boolean)
-            .join('.')
-        ;
-
-        const loaded = await adapter.read(cursor);
+        const loaded = await adapter.read(name);
 
         if (!loaded) {
             return;
@@ -43,8 +35,7 @@ const factory = <T>(name: string, schema: T, config: Config): Collection<T> => {
      *
      */
     const write = async (): Promise<Data<T>> => {
-        const cursor = `${name}.${ext}`;
-        await adapter.write(cursor, data);
+        await adapter.write(name, data);
 
         return data;
     };

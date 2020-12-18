@@ -27,7 +27,7 @@ describe('collection', () => {
     };
 
     const adapter = memory();
-    adapter.write('foo.json', state);
+    adapter.write('foo', state);
 
     it('should create an instance of collection', async () => {
         const instance = await collection('foo', null, {adapter});

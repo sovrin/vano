@@ -20,7 +20,6 @@ export type Collection<T> = {
 
 export type Config = {
     adapter: Adapter,
-    ext?: string,
 }
 
 export type Data<T> = {
