@@ -3,7 +3,7 @@
  * @param object
  * @param key
  */
-export const hasProperty = <T>(object: object, key: keyof T): boolean => (
+export const hasProperty = <T>(object: unknown, key: keyof T): boolean => (
     object.hasOwnProperty(key)
 );
 
