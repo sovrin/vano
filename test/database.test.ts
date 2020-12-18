@@ -1,6 +1,7 @@
 import assert from "assert";
 import database from '../src/database';
 import {memory} from '../src';
+import collection from "../src/collection";
 
 describe('database', () => {
     const schema = {
@@ -9,25 +10,33 @@ describe('database', () => {
 
     const adapter = memory();
 
-    it('should create several distinct collections', async () => {
-        const instance = await database({adapter});
+    it('should not create an instance given an invalid collection name', () => {
+        const instance = database({adapter});
 
-        const foo = await instance.collection('foo');
-        const bar = await instance.collection('bar');
+        assert.throws(() => instance.collection(' \n\r!"§$%&/()=?foo123\v'), {
+            message: `collection name can only be alphanumeric.`
+        })
+    });
+
+    it('should create several distinct collections', () => {
+        const instance = database({adapter});
+
+        const foo = instance.collection('foo');
+        const bar = instance.collection('bar');
 
         assert(foo !== bar);
     });
 
-    it('should create distinct entries', async () => {
-        const instance = await database({adapter});
+    it('should create distinct entries', () => {
+        const instance = database({adapter});
         const entry = {
             name: "entry"
         }
 
-        const foo = await instance.collection('foo');
+        const foo = instance.collection('foo');
         const fooId = foo.add(entry);
 
-        const bar = await instance.collection('bar');
+        const bar = instance.collection('bar');
         const barId = bar.add(entry);
 
         const fooEntry = foo.get(fooId);
@@ -40,8 +49,8 @@ describe('database', () => {
     it('should not create a new collection with the same key', async () => {
         const instance = await database({adapter});
 
-        const a = await instance.collection('foo', schema);
-        const b = await instance.collection('foo');
+        const a = instance.collection('foo', schema);
+        const b = instance.collection('foo');
 
         assert(a === b);
     });
