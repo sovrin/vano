@@ -9,7 +9,7 @@
 [![devDependencies][devDep-src]][devDep-href]
 [![License][license-src]][license-href]
 
-> small and flexible JSON collection storage library suitable for small projects.
+> small and flexible collection storage library suitable for small projects.
 
 ## Installation
 ```bash

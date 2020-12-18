@@ -1,7 +1,7 @@
 {
   "name": "vano",
   "version": "0.1.0",
-  "description": "small and flexible json collection storage for nodejs",
+  "description": "small and flexible collection storage for nodejs",
   "main": "./dist/index.js",
   "types": "./types/index.d.ts",
   "type": "commonjs",
