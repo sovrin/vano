@@ -1,4 +1,4 @@
-import assert from "assert";
+import assert from 'assert';
 import {unlinkSync} from 'fs';
 import {file} from '../../src';
 
@@ -18,7 +18,7 @@ describe('adapter', () => {
         it('should read file', async () => {
             const data = await adapter.read('foo') as any;
 
-            assert(data === "{\"foo\": \"bar\"}");
+            assert(data === '{"foo": "bar"}');
         });
 
         it('should not be not loadable', async () => {
@@ -28,7 +28,7 @@ describe('adapter', () => {
         });
 
         it('should write new file', async () => {
-            const string = "{\"fiz\":\"buz\"}";
+            const string = '{"fiz":"buz"}';
             let data = await adapter.read('bar') as any;
 
             assert(data === null);
@@ -37,17 +37,17 @@ describe('adapter', () => {
             data = await adapter.read('bar') as any;
 
             assert(data === string);
-            assert(data.match(/buz/))
+            assert(data.match(/buz/));
         });
 
         it('should serialize data', () => {
-            const serialized = adapter.serialize({foo: 'bar'})
+            const serialized = adapter.serialize({foo: 'bar'});
 
-            assert(serialized === "{\"foo\":\"bar\"}");
+            assert(serialized === '{"foo":"bar"}');
         });
 
         it('should deserialize data', () => {
-            const {foo} = adapter.deserialize("{\"foo\":\"bar\"}")
+            const {foo} = adapter.deserialize('{"foo":"bar"}');
 
             assert(foo === 'bar');
         });

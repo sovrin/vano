@@ -1,5 +1,5 @@
 import collectionFactory from './collection';
-import {Config, Collection, Database} from "./types";
+import {Config, Collection, Database} from './types';
 
 /**
  *
@@ -23,7 +23,7 @@ const factory = (config: Config): Database => {
      */
     const collection = <T>(name: string, schema: T): Collection<T> => {
         if (!valid(name)) {
-            throw new Error(`collection name can only be alphanumeric.`)
+            throw new Error(`collection name can only be alphanumeric.`);
         }
 
         if (!collections[name]) {

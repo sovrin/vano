@@ -1,7 +1,7 @@
 import {resolve} from 'path';
 import {existsSync, readFile, writeFile} from 'fs';
 import {promisify} from 'util';
-import {Adapter} from "../types";
+import {Adapter} from '../types';
 
 const load = promisify(readFile);
 const save = promisify(writeFile);
@@ -40,7 +40,7 @@ const factory = (base: string): Adapter => {
         }
 
         return (await load(cursor, 'utf-8')).trim();
-    }
+    };
 
     /**
      *
@@ -51,14 +51,14 @@ const factory = (base: string): Adapter => {
         const pointer = resolve(base, `${key}.json`);
 
         await save(pointer, data);
-    }
+    };
 
     return {
         serialize,
         deserialize,
         read,
-        write
-    }
+        write,
+    };
 };
 
 /**

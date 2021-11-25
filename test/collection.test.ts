@@ -1,29 +1,29 @@
-import assert from "assert";
-import collection from '../src/collection'
-import {memory} from "../src";
-import {equals} from "./utils";
+import assert from 'assert';
+import collection from '../src/collection';
+import {memory} from '../src';
+import {equals} from './utils';
 
 describe('collection', () => {
     const entry = {
-        "_id": "fo:13fGjfSC6Sizo",
-        "_ts": 1601386379613,
-        "string": "bar",
-        "number": 3,
+        '_id': 'fo:13fGjfSC6Sizo',
+        '_ts': 1601386379613,
+        'string': 'bar',
+        'number': 3,
     };
 
     const schema = {
-        "string": "",
-        "number": 0,
-        "boolean": true,
-        "default": "secret",
+        'string': '',
+        'number': 0,
+        'boolean': true,
+        'default': 'secret',
     };
 
     const state: any = {
-        "name": "foo",
-        "schema": schema,
-        "entries": [
+        'name': 'foo',
+        'schema': schema,
+        'entries': [
             entry,
-        ]
+        ],
     };
 
     const adapter = memory();
@@ -32,7 +32,7 @@ describe('collection', () => {
     it('should create an instance of collection', async () => {
         const instance = await collection('foo', null, {adapter});
         const expected = [
-            'add', 'read', 'write', 'all', 'count', 'get', 'update', 'remove', 'query', 'reset'
+            'add', 'read', 'write', 'all', 'count', 'get', 'update', 'remove', 'query', 'reset',
         ];
 
         const actual = Object.keys(instance);
@@ -43,7 +43,7 @@ describe('collection', () => {
     it('should not be able to load unknown collection', async () => {
         const instance = collection('unknown', null, {adapter});
         await instance.read();
-        const value = instance.get("foo");
+        const value = instance.get('foo');
 
         assert(value === undefined);
     });
@@ -52,7 +52,7 @@ describe('collection', () => {
         const instance = await collection('foo', schema, {adapter});
         await instance.read();
 
-        const value = instance.get("fo:13fGjfSC6Sizo");
+        const value = instance.get('fo:13fGjfSC6Sizo');
 
         assert(equals(value, entry));
     });
@@ -60,7 +60,7 @@ describe('collection', () => {
     it('should get nothing', async () => {
         const instance = collection('unknown', null, {adapter});
 
-        const value = instance.get("foo");
+        const value = instance.get('foo');
 
         assert(value === undefined);
     });
@@ -69,7 +69,7 @@ describe('collection', () => {
         const instance = await collection('foo', null, {adapter});
         await instance.read();
 
-        const value = instance.get("foo");
+        const value = instance.get('foo');
 
         assert(value === undefined);
     });
@@ -88,17 +88,17 @@ describe('collection', () => {
         const instance = await collection('foo', null, {adapter});
         await instance.read();
 
-        const id = instance.add({foo: "bar"});
+        const id = instance.add({foo: 'bar'});
         const {foo} = instance.get(id);
 
-        assert(foo === "bar");
+        assert(foo === 'bar');
     });
 
     it('should not mutate input data', async () => {
         const instance = await collection('foo', null, {adapter});
         await instance.read();
 
-        const entry = {foo: "bar"} as any;
+        const entry = {foo: 'bar'} as any;
         const id = instance.add(entry);
         const value = instance.get(id);
 
@@ -112,9 +112,9 @@ describe('collection', () => {
         await instance.read();
 
         const id = instance.add({
-            foo: "bar",
+            foo: 'bar',
             fiz: 2,
-            string: "string",
+            string: 'string',
             number: 9000,
         } as any);
 
@@ -123,13 +123,13 @@ describe('collection', () => {
         const actual = Object.keys(entry);
 
         assert(equals(expected, actual));
-        assert(typeof entry._id === "string");
-        assert(typeof entry._ts === "number");
+        assert(typeof entry._id === 'string');
+        assert(typeof entry._ts === 'number');
         assert(entry.foo === undefined);
-        assert(entry.string === "string");
+        assert(entry.string === 'string');
         assert(entry.number === 9000);
         assert(entry.boolean === true);
-        assert(entry.default === "secret");
+        assert(entry.default === 'secret');
     });
 
     it('should return count of collections', async () => {
@@ -147,7 +147,7 @@ describe('collection', () => {
 
         assert(instance.count() === 5);
 
-        instance.add({string: "test"});
+        instance.add({string: 'test'});
 
         assert(instance.count() === 6);
     });
@@ -156,12 +156,12 @@ describe('collection', () => {
         const instance = await collection('foo', null, {adapter});
         await instance.read();
 
-        const changed = instance.update("fo:13fGjfSC6Sizo", {
-            "string": "sauce",
-            "foo": "bar",
+        const changed = instance.update('fo:13fGjfSC6Sizo', {
+            'string': 'sauce',
+            'foo': 'bar',
         }) as any;
 
-        assert(changed.string === "sauce");
+        assert(changed.string === 'sauce');
         assert(changed.number === 3);
         assert(changed.foo === undefined);
     });
@@ -170,8 +170,8 @@ describe('collection', () => {
         const instance = await collection('foo', null, {adapter});
         await instance.read();
 
-        const changed = instance.update("fo:13fGjfSC6Sizo", {
-            "foo": "bar",
+        const changed = instance.update('fo:13fGjfSC6Sizo', {
+            'foo': 'bar',
         }) as any;
 
         assert(changed === false);
@@ -191,7 +191,7 @@ describe('collection', () => {
 
         {
             const changed = instance.update('fo:19uPnTfrf03sY', {
-                "foo": "bar",
+                'foo': 'bar',
             }) as any;
 
             assert(changed === false);
@@ -202,7 +202,7 @@ describe('collection', () => {
         const instance = await collection('foo', null, {adapter});
         await instance.read();
 
-        const changed = instance.remove("fo:13fGjfSC6Sizo");
+        const changed = instance.remove('fo:13fGjfSC6Sizo');
 
         assert(changed === true);
     });

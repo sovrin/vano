@@ -1,6 +1,6 @@
-import assert from "assert";
+import assert from 'assert';
 import {memory} from '../../src';
-import {equals} from "../utils";
+import {equals} from '../utils';
 
 describe('adapter', () => {
     describe('memory', () => {
@@ -14,7 +14,7 @@ describe('adapter', () => {
         });
 
         it('should write', async () => {
-            await adapter.write('foo', data);
+            await adapter.write('foo', data as any);
 
             const value = await adapter.read('foo');
 

@@ -1,12 +1,10 @@
-import assert from "assert";
-import database from '../src/database';
-import {memory} from '../src';
-import collection from "../src/collection";
+import assert from 'assert';
+import database, {memory} from '../src';
 
 describe('database', () => {
     const schema = {
-        name: ""
-    }
+        name: '',
+    };
 
     const adapter = memory();
 
@@ -14,8 +12,8 @@ describe('database', () => {
         const instance = database({adapter});
 
         assert.throws(() => instance.collection(' \n\r!"§$%&/()=?foo123\v'), {
-            message: `collection name can only be alphanumeric.`
-        })
+            message: `collection name can only be alphanumeric.`,
+        });
     });
 
     it('should create several distinct collections', () => {
@@ -30,8 +28,8 @@ describe('database', () => {
     it('should create distinct entries', () => {
         const instance = database({adapter});
         const entry = {
-            name: "entry"
-        }
+            name: 'entry',
+        };
 
         const foo = instance.collection('foo');
         const fooId = foo.add(entry);

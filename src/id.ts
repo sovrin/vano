@@ -69,7 +69,7 @@ const factory = (name: string) => {
         let len = string.length;
 
         while (len-- && MAP[string[len]]) {
-            decoded += MAP[string[len]] ;
+            decoded += MAP[string[len]];
         }
 
         return decoded;

@@ -1,5 +1,5 @@
-import {hasProperty, isNumber, isRegexp} from "./utils";
-import {Entry, Query} from "./types";
+import {hasProperty, isNumber, isRegexp} from './utils';
+import {Entry, Query} from './types';
 
 /**
  *

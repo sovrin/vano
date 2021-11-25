@@ -12,7 +12,7 @@ export const hasProperty = <T>(object: unknown, key: keyof T): boolean => (
  * @param value
  */
 export const isNumber = (value: unknown): boolean => (
-    typeof value === "number"
+    typeof value === 'number'
 );
 
 /**

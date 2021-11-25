@@ -1,6 +1,6 @@
 import queryFactory from './query';
 import idFactory from './id';
-import {hasProperty, isEmpty, timestamp} from "./utils";
+import {hasProperty, isEmpty, timestamp} from './utils';
 import {Config, Query, Collection, Data, Entry} from "./types";
 
 /**

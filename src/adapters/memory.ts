@@ -1,4 +1,4 @@
-import {Adapter} from "../types";
+import {Adapter} from '../types';
 
 /**
  *
@@ -41,7 +41,7 @@ const factory = (): Adapter => {
         serialize,
         deserialize,
         read,
-        write
+        write,
     };
 };
 
