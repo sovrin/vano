@@ -6,7 +6,7 @@ export type Adapter = {
 }
 
 export type Collection<T> = {
-    add(item: T): string,
+    add(item: Partial<T>): string,
     read(): Promise<void>,
     write(): Promise<Data<T>>,
     all(): Array<T>,
@@ -39,12 +39,12 @@ export type Entry<T> = T & {
 }
 
 export type Query<T> = {
-    eq(key: keyof T, value): Query<T>,
-    neq(key: keyof T, value): Query<T>,
-    gt(key: keyof T, value): Query<T>,
-    gte(key: keyof T, value): Query<T>,
-    lt(key: keyof T, value): Query<T>,
-    lte(key: keyof T, value): Query<T>,
+    eq<K extends keyof T>(key: K, value: T[K] | RegExp): Query<T>,
+    neq<K extends keyof T>(key: K, value: T[K] | RegExp): Query<T>,
+    gt<K extends keyof T>(key: K, value: T[K]): Query<T>,
+    gte<K extends keyof T>(key: K, value: T[K]): Query<T>,
+    lt<K extends keyof T>(key: K, value: T[K]): Query<T>,
+    lte<K extends keyof T>(key: K, value: T[K]): Query<T>,
     skip(n: number): Query<T>,
     limit(n: number): Query<T>,
     get(): Array<T>,
