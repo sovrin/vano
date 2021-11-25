@@ -1,5 +1,6 @@
 import queryFactory from './query';
-import {hasProperty, isEmpty, timestamp, unique} from "./utils";
+import idFactory from './id';
+import {hasProperty, isEmpty, timestamp} from "./utils";
 import {Config, Query, Collection, Data, Entry} from "./types";
 
 /**
@@ -15,8 +16,8 @@ const factory = <T>(name: string, schema: T, config: Config): Collection<T> => {
         entries: [],
         timestamp: timestamp(),
     };
-
     const {adapter} = config;
+    const {generate, validate} = idFactory(name);
 
     /**
      *
@@ -70,7 +71,7 @@ const factory = <T>(name: string, schema: T, config: Config): Collection<T> => {
      */
     const add = (item: T): string => {
         let entry: Entry<T> = {
-            _id: unique(),
+            _id: generate(),
             _ts: timestamp(),
             ...item,
         };
@@ -104,6 +105,10 @@ const factory = <T>(name: string, schema: T, config: Config): Collection<T> => {
      * @param id
      */
     const get = (id: string): Entry<T> => {
+        if (!validate(id)) {
+            return undefined;
+        }
+
         const {entries} = data;
 
         return entries.find(({_id}) => (
@@ -117,6 +122,10 @@ const factory = <T>(name: string, schema: T, config: Config): Collection<T> => {
      * @param update
      */
     const update = (id: string, update): boolean | Entry<T> => {
+        if (!validate(id)) {
+            return false;
+        }
+
         let changed = false;
 
         const index = data.entries.findIndex(({_id}) => (
@@ -161,6 +170,10 @@ const factory = <T>(name: string, schema: T, config: Config): Collection<T> => {
      * @param id
      */
     const remove = (id: string): boolean => {
+        if (!validate(id)) {
+            return false;
+        }
+
         const {entries} = data;
         const index = entries.findIndex(({_id}) => (
             _id === id

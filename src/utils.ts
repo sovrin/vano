@@ -34,21 +34,6 @@ export const isEmpty = (object: unknown): boolean => (
 /**
  *
  */
-export const unique = (): string => {
-    const charset = 'ABCDEF0123456789';
-
-    return (
-        [...Array(32)]
-            .map(Math.random)
-            .map((n) => ~~(n * 100))
-            .map((n) => charset[n % charset.length])
-            .join('')
-    );
-};
-
-/**
- *
- */
 export const timestamp = (): number => (
     new Date().getTime()
 );

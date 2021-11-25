@@ -38,6 +38,11 @@ export type Entry<T> = T & {
     _ts: number,
 }
 
+type Opaque<K, T> = T & { __TYPE__: K };
+export type Prefix = Opaque<'Prefix', string>;
+export type ID = Opaque<'ID', string>;
+export type CC = Opaque<'CC', string>;
+
 export type Query<T> = {
     eq<K extends keyof T>(key: K, value: T[K] | RegExp): Query<T>,
     neq<K extends keyof T>(key: K, value: T[K] | RegExp): Query<T>,

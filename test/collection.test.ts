@@ -5,7 +5,7 @@ import {equals} from "./utils";
 
 describe('collection', () => {
     const entry = {
-        "_id": "661C47F2F199CBFA71FE03C2747CF549",
+        "_id": "fo:13fGjfSC6Sizo",
         "_ts": 1601386379613,
         "string": "bar",
         "number": 3,
@@ -18,7 +18,7 @@ describe('collection', () => {
         "default": "secret",
     };
 
-    const state = {
+    const state: any = {
         "name": "foo",
         "schema": schema,
         "entries": [
@@ -49,9 +49,10 @@ describe('collection', () => {
     });
 
     it('should read collection and get value', async () => {
-        const instance = await collection('foo', null, {adapter});
+        const instance = await collection('foo', schema, {adapter});
         await instance.read();
-        const value = instance.get("661C47F2F199CBFA71FE03C2747CF549");
+
+        const value = instance.get("fo:13fGjfSC6Sizo");
 
         assert(equals(value, entry));
     });
@@ -155,7 +156,7 @@ describe('collection', () => {
         const instance = await collection('foo', null, {adapter});
         await instance.read();
 
-        const changed = instance.update("661C47F2F199CBFA71FE03C2747CF549", {
+        const changed = instance.update("fo:13fGjfSC6Sizo", {
             "string": "sauce",
             "foo": "bar",
         }) as any;
@@ -169,7 +170,7 @@ describe('collection', () => {
         const instance = await collection('foo', null, {adapter});
         await instance.read();
 
-        const changed = instance.update("661C47F2F199CBFA71FE03C2747CF549", {
+        const changed = instance.update("fo:13fGjfSC6Sizo", {
             "foo": "bar",
         }) as any;
 
@@ -180,18 +181,28 @@ describe('collection', () => {
         const instance = await collection('foo', null, {adapter});
         await instance.read();
 
-        const changed = instance.update("foo", {
-            "foo": "bar",
-        }) as any;
+        {
+            const changed = instance.update('foo', {
+                'foo': 'bar',
+            }) as any;
 
-        assert(changed === false);
+            assert(changed === false);
+        }
+
+        {
+            const changed = instance.update('fo:19uPnTfrf03sY', {
+                "foo": "bar",
+            }) as any;
+
+            assert(changed === false);
+        }
     });
 
     it('should remove entry by correct id', async () => {
         const instance = await collection('foo', null, {adapter});
         await instance.read();
 
-        const changed = instance.remove("661C47F2F199CBFA71FE03C2747CF549");
+        const changed = instance.remove("fo:13fGjfSC6Sizo");
 
         assert(changed === true);
     });
@@ -200,9 +211,17 @@ describe('collection', () => {
         const instance = await collection('foo', null, {adapter});
         await instance.read();
 
-        const changed = instance.remove("foo");
+        {
+            const changed = instance.remove('foo');
 
-        assert(changed === false);
+            assert(changed === false);
+        }
+
+        {
+            const changed = instance.remove('fo:19uPnTfrf03sY');
+
+            assert(changed === false);
+        }
     });
 
     it('should write collection', async () => {
