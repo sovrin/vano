@@ -5,7 +5,7 @@ import {equals} from './utils';
 
 describe('collection', () => {
     const entry = {
-        '_id': 'fo:13fGjfSC6Sizo',
+        '_id': 'f:31V4bFBL4e0M6',
         '_ts': 1601386379613,
         'string': 'bar',
         'number': 3,
@@ -32,7 +32,19 @@ describe('collection', () => {
     it('should create an instance of collection', async () => {
         const instance = await collection('foo', null, {adapter});
         const expected = [
-            'add', 'read', 'write', 'all', 'count', 'get', 'update', 'remove', 'query', 'reset',
+            'add',
+            'read',
+            'write',
+            'all',
+            'count',
+            'get',
+            'update',
+            'remove',
+            'query',
+            'reset',
+            'validate',
+            'on',
+            'off',
         ];
 
         const actual = Object.keys(instance);
@@ -52,7 +64,7 @@ describe('collection', () => {
         const instance = await collection('foo', schema, {adapter});
         await instance.read();
 
-        const value = instance.get('fo:13fGjfSC6Sizo');
+        const value = instance.get('f:31V4bFBL4e0M6');
 
         assert(equals(value, entry));
     });
@@ -132,6 +144,20 @@ describe('collection', () => {
         assert(entry.default === 'secret');
     });
 
+    it('should add value and trigger event', (done) => {
+        const instance = collection('foo', schema, {adapter});
+
+        instance.on('add', (data) => {
+            assert(data.entry.string === 'foobar');
+            assert(data.event === 'add');
+            done();
+        });
+
+        instance.add({
+            string: 'foobar',
+        });
+    });
+
     it('should return count of collections', async () => {
         const instance = await collection('foo', null, {adapter});
         await instance.read();
@@ -153,11 +179,12 @@ describe('collection', () => {
     });
 
     it('should update entry', async () => {
-        const instance = await collection('foo', null, {adapter});
+        const instance = await collection('foo', schema, {adapter});
         await instance.read();
 
-        const changed = instance.update('fo:13fGjfSC6Sizo', {
+        const changed = instance.update('f:31V4bFBL4e0M6', {
             'string': 'sauce',
+            // @ts-ignore
             'foo': 'bar',
         }) as any;
 
@@ -170,7 +197,7 @@ describe('collection', () => {
         const instance = await collection('foo', null, {adapter});
         await instance.read();
 
-        const changed = instance.update('fo:13fGjfSC6Sizo', {
+        const changed = instance.update('f:85ntVEk9RP2dd', {
             'foo': 'bar',
         }) as any;
 
@@ -190,7 +217,7 @@ describe('collection', () => {
         }
 
         {
-            const changed = instance.update('fo:19uPnTfrf03sY', {
+            const changed = instance.update('f:31V4bFBL4e0M6', {
                 'foo': 'bar',
             }) as any;
 
@@ -198,11 +225,36 @@ describe('collection', () => {
         }
     });
 
+    it('should update and trigger event', (done) => {
+        const instance = collection('foo', schema, {adapter});
+        instance.read().then(() => {
+            const id = instance.add({
+                string: 'foo',
+            });
+
+            instance.on('update', ({changes}) => {
+                assert(changes.length === 1);
+                const [change] = changes;
+
+                const {field, before, after} = change;
+                assert(field === 'string');
+                assert(before === 'foo');
+                assert(after === 'bar');
+
+                done();
+            });
+
+            instance.update(id, {
+                string: 'bar',
+            });
+        })
+    });
+
     it('should remove entry by correct id', async () => {
         const instance = await collection('foo', null, {adapter});
         await instance.read();
 
-        const changed = instance.remove('fo:13fGjfSC6Sizo');
+        const changed = instance.remove('f:31V4bFBL4e0M6');
 
         assert(changed === true);
     });
@@ -218,10 +270,29 @@ describe('collection', () => {
         }
 
         {
-            const changed = instance.remove('fo:19uPnTfrf03sY');
+            const changed = instance.remove('f:31V4bFBL4e0M6');
 
             assert(changed === false);
         }
+    });
+
+    it('should remove entry and trigger event', (done) => {
+        const instance = collection('foo', schema, {adapter});
+
+        instance.read().then(() => {
+            const id = instance.add({
+                string: 'foo',
+            });
+
+            instance.on('remove', (data) => {
+                assert(data.entry._id === id);
+                assert(data.entry.string === 'foo');
+
+                done();
+            });
+
+            instance.remove(id);
+        });
     });
 
     it('should write collection', async () => {
@@ -247,11 +318,11 @@ describe('collection', () => {
         const instance = await collection('foo', null, {adapter});
         await instance.read();
 
-        const oldCount = await instance.count();
+        const oldCount = instance.count();
 
         instance.reset();
 
-        const newCount = await instance.count();
+        const newCount = instance.count();
 
         assert(oldCount > newCount);
         assert(newCount === 0);
