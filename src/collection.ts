@@ -117,6 +117,8 @@ const factory = <T>(name: string, schema: T, config: Config): Collection<T> => {
         data.entries.push(entry);
         data.timestamp = timestamp();
 
+        emit('add', entry);
+
         return entry._id;
     };
 
@@ -160,8 +162,6 @@ const factory = <T>(name: string, schema: T, config: Config): Collection<T> => {
             return false;
         }
 
-        let changed = false;
-
         const index = data.entries.findIndex(({_id}) => (
             _id === id
         ));
@@ -171,6 +171,7 @@ const factory = <T>(name: string, schema: T, config: Config): Collection<T> => {
         }
 
         const obj = data.entries[index];
+        const changes: Change<T>[] = [];
 
         for (const key of Object.keys(obj)) {
             if (key === '_id' || key === '_ts') {
@@ -182,19 +183,25 @@ const factory = <T>(name: string, schema: T, config: Config): Collection<T> => {
             const notEqualValue = (update[key] !== obj[key]);
 
             if (propertyExists && equalType && notEqualValue) {
-                obj[key] = update[key];
+                changes.push({
+                    field: key as keyof T,
+                    before: obj[key],
+                    after: update[key],
+                });
 
-                changed = true;
+                obj[key] = update[key];
             }
         }
 
-        if (!changed) {
+        if (!changes.length) {
             return false;
         }
 
         obj._ts = timestamp();
         data.entries[index] = obj;
         data.timestamp = timestamp();
+
+        emit('update', obj, changes);
 
         return obj;
     };
@@ -217,9 +224,13 @@ const factory = <T>(name: string, schema: T, config: Config): Collection<T> => {
             return false;
         }
 
+        const obj = data.entries[index];
+
         entries.splice(index, 1);
         data.entries = entries;
         data.timestamp = timestamp();
+
+        emit('remove', obj);
 
         return true;
     };
@@ -250,6 +261,9 @@ const factory = <T>(name: string, schema: T, config: Config): Collection<T> => {
         remove,
         query,
         reset,
+        validate,
+        on,
+        off,
     };
 };
 
