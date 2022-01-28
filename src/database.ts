@@ -1,5 +1,9 @@
 import collectionFactory from './collection';
-import {Config, Collection, Database} from './types';
+import type {Collection, Config} from './collection';
+
+export type Database = {
+    collection<T>(name: string, schema?: T): Collection<T>;
+};
 
 /**
  *
@@ -27,7 +31,7 @@ const factory = (config: Config): Database => {
         }
 
         if (!collections[name]) {
-            collections[name] = collectionFactory(name, schema, config);
+            collections[name] = collectionFactory<T>(name, schema, config);
         }
 
         return collections[name];

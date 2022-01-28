@@ -5,4 +5,7 @@
  */
 export {default} from './database';
 export * from './adapters';
-export type {Adapter, Collection, Config, Database, Data, Entry, Query} from './types';
+export type {Database} from './database';
+export type {Collection, Config, Data, Entry} from './collection';
+export type {Query} from './query';
+export type {Adapter} from './adapters';

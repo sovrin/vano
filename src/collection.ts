@@ -1,7 +1,41 @@
 import queryFactory from './query';
 import idFactory from './id';
 import {hasProperty, isEmpty, timestamp} from './utils';
-import {Config, Query, Collection, Data, Entry} from "./types";
+import type {Adapter} from './adapters';
+import type {Query} from './query';
+import type {Change, Event, Listener, Options} from './eventListener';
+
+export type Collection<T> = {
+    add(item: Partial<T>): string,
+    read(): Promise<void>,
+    write(): Promise<Data<T>>,
+    all(): T[],
+    count(): number,
+    get(id: string): Entry<T>,
+    update(id: string, update: Partial<T>): boolean | T,
+    remove(id: string),
+    query(): Query<T>,
+    validate(id: string): boolean,
+    reset(),
+    on(event: Event, listener: Listener<T>, options?: Options): () => void,
+    off(event: Event, listener: Listener<T>): boolean,
+}
+
+export type Config = {
+    adapter: Adapter,
+};
+
+export type Data<T> = {
+    name?: string,
+    schema?: T,
+    entries?: Entry<T>[],
+    timestamp?: number,
+};
+
+export type Entry<T> = T & {
+    _id: string,
+    _ts: number,
+};
 
 /**
  *
@@ -18,6 +52,8 @@ const factory = <T>(name: string, schema: T, config: Config): Collection<T> => {
     };
     const {adapter} = config;
     const {generate, validate} = idFactory(name);
+    const {generate, validate} = creator('id')(name);
+    const {emit, on, off} = creator('event')<T>();
 
     /**
      *
@@ -121,7 +157,7 @@ const factory = <T>(name: string, schema: T, config: Config): Collection<T> => {
      * @param id
      * @param update
      */
-    const update = (id: string, update): boolean | Entry<T> => {
+    const update = (id: string, update: Partial<T>): boolean | Entry<T> => {
         if (!validate(id)) {
             return false;
         }

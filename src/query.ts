@@ -1,5 +1,17 @@
 import {hasProperty, isNumber, isRegexp} from './utils';
-import {Entry, Query} from './types';
+import type {Entry} from './collection';
+
+export type Query<T> = {
+    eq<K extends keyof T>(key: K, value: T[K] | RegExp): Query<T>,
+    neq<K extends keyof T>(key: K, value: T[K] | RegExp): Query<T>,
+    gt<K extends keyof T>(key: K, value: T[K]): Query<T>,
+    gte<K extends keyof T>(key: K, value: T[K]): Query<T>,
+    lt<K extends keyof T>(key: K, value: T[K]): Query<T>,
+    lte<K extends keyof T>(key: K, value: T[K]): Query<T>,
+    skip(n: number): Query<T>,
+    limit(n: number): Query<T>,
+    get(): Entry<T>[],
+}
 
 /**
  *
@@ -165,7 +177,7 @@ const factory = <T>(entries: Array<Entry<T>>): Query<T> => {
     /**
      *
      */
-    const get = (): Array<T> => {
+    const get = (): Array<Entry<T>> => {
         const {skip, limit} = state;
         const {length} = entries;
 

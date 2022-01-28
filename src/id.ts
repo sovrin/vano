@@ -1,5 +1,9 @@
 import {randomBytes} from 'crypto';
-import {CC, ID, Prefix} from './types';
+
+type Opaque<K, T> = T & { __TYPE__: K };
+export type Prefix = Opaque<'Prefix', string>;
+export type ID = Opaque<'ID', string>;
+export type CC = Opaque<'CC', string>;
 
 const DELIMITER = ':';
 const REGEX_VOWELS = /AEIOU/ig;

@@ -1,4 +1,4 @@
-import {Adapter} from '../types';
+import type {Adapter} from '../';
 
 /**
  *
@@ -18,7 +18,7 @@ const factory = (): Adapter => {
      *
      * @param data
      */
-    const deserialize = (data: any) => (
+    const deserialize = (data: object) => (
         Object.assign({}, data)
     );
 
