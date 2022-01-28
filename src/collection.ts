@@ -1,5 +1,4 @@
-import queryFactory from './query';
-import idFactory from './id';
+import creator from './creator';
 import {hasProperty, isEmpty, timestamp} from './utils';
 import type {Adapter} from './adapters';
 import type {Query} from './query';
@@ -51,7 +50,6 @@ const factory = <T>(name: string, schema: T, config: Config): Collection<T> => {
         timestamp: timestamp(),
     };
     const {adapter} = config;
-    const {generate, validate} = idFactory(name);
     const {generate, validate} = creator('id')(name);
     const {emit, on, off} = creator('event')<T>();
 
@@ -230,7 +228,7 @@ const factory = <T>(name: string, schema: T, config: Config): Collection<T> => {
      *
      */
     const query = (): Query<T> => (
-        queryFactory<T>(data.entries)
+        creator('query')<T>(data.entries)
     );
 
     /**
