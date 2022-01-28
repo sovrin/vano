@@ -49,6 +49,8 @@ import vano, {file} from 'vano';
 - <a href="#colUpdate"><code>col.<b>update(id, update)</b></code></a>
 - <a href="#colQuery"><code>col.<b>query()</b></code></a>
 - <a href="#colReset"><code>col.<b>reset()</b></code></a>
+- <a href="#colOn"><code>col.<b>on(event, listener)</b></code></a>
+- <a href="#colOff"><code>col.<b>off(event, listener)</b></code></a>
 - <a href="#queryEq"><code>query.<b>eq(key, value)</b></code></a>
 - <a href="#queryNeq"><code>query.<b>neq(key, value)</b></code></a>
 - <a href="#queryGt"><code>query.<b>gt(key, value)</b></code></a>
@@ -65,9 +67,9 @@ import vano, {file} from 'vano';
 <a name="ctor"></a>
 ### `vano(config: Config)`
 #### `Config`
-|            | required | default       | description
-| :--------- | :------: | :------------ | :----------
-| `adapter`  | ✓        |               | interface for the communication between vano and io system. it can be `file`, `memory` or a custom function. [`adapter`](README.md#adapterCustom) 
+|           | required | default | description                                                                                                                                       |
+|:----------|:--------:|:--------|:--------------------------------------------------------------------------------------------------------------------------------------------------|
+| `adapter` |    ✓     |         | interface for the communication between vano and io system. it can be `file`, `memory` or a custom function. [`adapter`](README.md#adapterCustom) |
 
 Creates a new `vano` instance.
 ```javascript
@@ -104,12 +106,12 @@ const db = vano({adapter: memory()});
 Custom adapters can be used to read and write collections from and in different formats.
 These have to adhere the `Adapter` interface and return a function with four of the following sub-functions:
 
-| function      | parameter                  | return         | description
-| :------------ | :------------------------  | :------------- | :----------
-| `read`        | key: `string`              | `Promise<any> `| resource reading logic. should return anything `deserialize` is comfortable with.
-| `write`       | key: `string`, data: `any` | `void`         | resource saving logic. `data` is previously by `serialize` processed.
-| `serialize`   | data: `any`                | `Promise<any>` | transform data into a processable form for `write`.
-| `deserialize` | data: `any`                | `Promise<any>` | transform data into a processable form for `read`.
+| function      | parameter                  | return          | description                                                                       |
+|:--------------|:---------------------------|:----------------|:----------------------------------------------------------------------------------|
+| `read`        | key: `string`              | `Promise<any> ` | resource reading logic. should return anything `deserialize` is comfortable with. |
+| `write`       | key: `string`, data: `any` | `void`          | resource saving logic. `data` is previously by `serialize` processed.             |
+| `serialize`   | data: `any`                | `Promise<any>`  | transform data into a processable form for `write`.                               |
+| `deserialize` | data: `any`                | `Promise<any>`  | transform data into a processable form for `read`.                                |
 
 ##### Example:
 ```javascript
@@ -224,6 +226,26 @@ col.update('ID', {name: "max mustermann"});
 Removes all items from the collection.
 ```javascript
 col.reset();
+```
+
+***
+
+<a name="colOn"></a>
+#### `col.on(event, listener[, {once: bool])`
+Binds an event listener to one of the following actions `add` | `update` | `remove`.
+```javascript
+const onAdd = (data) => console.log(data);
+col.on('add', onAdd);
+```
+
+***
+
+<a name="colOff"></a>
+#### `col.off(event, listener)`
+Unbinds the previously bound event listener.
+```javascript
+const onAdd = (data) => console.log(data);
+col.off('add', onAdd);
 ```
 
 ***
