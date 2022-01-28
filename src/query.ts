@@ -118,7 +118,6 @@ const factory = <T>(entries: Array<Entry<T>>): Query<T> => {
         return false;
     });
 
-
     /**
      *
      * @param key
@@ -135,7 +134,6 @@ const factory = <T>(entries: Array<Entry<T>>): Query<T> => {
 
         return false;
     });
-
 
     /**
      *

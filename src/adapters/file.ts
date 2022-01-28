@@ -11,7 +11,6 @@ const save = promisify(writeFile);
  * @param base
  */
 const factory = (base: string): Adapter => {
-
     /**
      *
      * @param data

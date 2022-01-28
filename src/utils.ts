@@ -4,7 +4,7 @@
  * @param key
  */
 export const hasProperty = <T>(object: unknown, key: keyof T): boolean => (
-    object.hasOwnProperty(key)
+    Object.prototype.hasOwnProperty.call(object, key)
 );
 
 /**
