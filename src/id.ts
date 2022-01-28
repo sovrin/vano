@@ -6,7 +6,7 @@ export type ID = Opaque<'ID', string>;
 export type CC = Opaque<'CC', string>;
 
 const DELIMITER = ':';
-const REGEX_VOWELS = /AEIOU/ig;
+const REGEX_VOWELS = /[AEIOU]/ig;
 const PREFIX_LENGTH = 3;
 const ID_LENGTH = 11;
 const ALPHABET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
